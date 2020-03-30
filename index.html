@@ -1,0 +1,53 @@
+<html>
+
+<head>
+  <title>DrummJS</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <ul>
+      <li data-key="65" class="key">A <span>01</span></li>
+      <li data-key="83" class="key">S <span>02</span></li>
+      <li data-key="68" class="key">D <span>03</span></li>
+      <li data-key="70" class="key">F <span>03</span></li>
+    </ul>
+  </div>
+
+  <audio data-key="65" src="./assets/01.mp3"></audio>
+  <audio data-key="83" src="./assets/02.mp3"></audio>
+  <audio data-key="68" src="./assets/03.mp3"></audio>
+  <audio data-key="70" src="./assets/04.mp3"></audio>
+
+  <script>
+    window.addEventListener('keydown', playDrumm)
+
+    function playDrumm(e) {
+      console.log(e);
+
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+
+      if (!audio) return;
+
+      audio.currentTime = 0;
+      audio.play();
+
+      key.classList.add('playing')
+    }
+
+    function removeTransition(e) {
+      if (e.propertyName !== 'transform') return;
+
+      this.classList.remove('playing');
+    }
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+
+  </script>
+</body>
+
+</html>
